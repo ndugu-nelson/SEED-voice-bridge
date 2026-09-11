@@ -416,10 +416,15 @@ function addStep({num, label, title, bodyHTML}){
   return step;
 }
 
+async function safeJson(resp){
+  try{ return await resp.json(); }
+  catch{ return {}; }
+}
+
 async function postJSON(url, body){
   const resp = await fetch(url, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
-  const data = await resp.json().catch(()=>({}));
-  if(!resp.ok) throw new Error(data.error || `HTTP ${resp.status}`);
+  const data = await safeJson(resp);
+  if(!resp.ok) throw new Error(data.error || `HTTP ${resp.status} — the server didn't return the expected response.`);
   return data;
 }
 
@@ -511,8 +516,8 @@ async function runAgent(){
       voiceStatus.textContent = 'Looking up the current voice catalog…';
       try{
         const speakersResp = await fetch('/api/voice/speakers');
-        const speakersData = await speakersResp.json();
-        if(!speakersResp.ok) throw new Error(speakersData.error || `HTTP ${speakersResp.status}`);
+        const speakersData = await safeJson(speakersResp);
+        if(!speakersResp.ok) throw new Error(speakersData.error || `HTTP ${speakersResp.status} — the server didn't return the expected response.`);
         const options = speakersData.by_language && speakersData.by_language[selectedLang.code];
         const voiceId = (options && options.length) ? options[0] : selectedLang.fallbackVoiceId;
         if(!voiceId) throw new Error(`No voice currently available for "${selectedLang.code}".`);
