@@ -26,7 +26,7 @@ SUNBIRD_BASE = "https://api.sunbird.ai"
 NAROIR_SEARCH = "https://irbackend.naro.go.ug/server/opensearch/search"
 
 REQUEST_TIMEOUT = 40
-AUDIO_TIMEOUT = 120  # speech synthesis is slower than translate/chat — give it more room
+AUDIO_TIMEOUT = 150  # speech synthesis is slower than translate/chat — give it more room
 
 
 def sunbird_headers():
