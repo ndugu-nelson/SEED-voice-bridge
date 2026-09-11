@@ -25,7 +25,7 @@ SUNBIRD_API_KEY = os.environ.get("SUNBIRD_API_KEY", "")
 SUNBIRD_BASE = "https://api.sunbird.ai"
 NAROIR_SEARCH = "https://irbackend.naro.go.ug/server/opensearch/search"
 
-REQUEST_TIMEOUT = 40
+REQUEST_TIMEOUT = 60
 AUDIO_TIMEOUT = 150  # speech synthesis is slower than translate/chat — give it more room
 
 
